@@ -1,6 +1,11 @@
 #ifndef _COMMUNS_H_
 #define _COMMUNS_H_
 
+#include <pgmspace.h>
+
+const char DateISORegex[] PROGMEM = "(%d+)%-(%d+)%-(%d+)";
+const char TimeISORegex[] PROGMEM = "(%d+):(%d+):(%d+)";
+
 template<class T, void(T::*PTR)(), size_t I>
 struct bind_member
 {
