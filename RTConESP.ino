@@ -3,6 +3,10 @@
 
 char lBuffer[DEF_MSG_SIZE];
 
+#define NUMBER_OF_COMMANDS	3
+sSerialCommand SerialCommands[NUMBER_OF_COMMANDS];
+SerialInterpreterClass SerialInterpreter(SerialCommands, NUMBER_OF_COMMANDS);
+
 void setup()
 {
 	sei();
@@ -10,9 +14,28 @@ void setup()
 
 	Serial.println("Welcome");
 
-	SerialInterpreter.AddCommand("setdate", SerialInterpreterClass::eSerialCommands::nSetDate);
-	SerialInterpreter.AddCommand("parsedate", SerialInterpreterClass::eSerialCommands::nParseDate);
-	SerialInterpreter.AddCommand("print", SerialInterpreterClass::eSerialCommands::nPrint);
+	SerialCommands[0].Name = "setdate";
+	SerialCommands[0].ExecFunction = SetDateTime;
+
+	SerialCommands[1].Name = "parsedate";
+	SerialCommands[1].ExecFunction = ParseDate;
+
+	SerialCommands[2].Name = "print";
+	SerialCommands[2].ExecFunction = PrintTime;
+}
+
+void loop()
+{
+	RTCTimer.DelayMili(1000, (bool &)SerialInterpreter.MessageReady, CheckingSerial);
+
+	PrintTime();
+
+	if (SerialInterpreter.MessageReady)
+	{
+		if (SerialInterpreter.ExecFunction != nullptr)
+			SerialInterpreter.ExecFunction();
+		SerialInterpreter.ClearBuffer();
+	}
 }
 
 void CheckingSerial()
@@ -25,50 +48,12 @@ void CheckingSerial()
 	yield();
 }
 
-void loop()
-{
-	RTCTimer.DelayMili(1000, (bool &)SerialInterpreter.MessageReady, CheckingSerial);
-
-	PrintTime();
-
-	if (SerialInterpreter.MessageReady)
-	{
-		SerialHandler();
-	}
-}
-
-void SerialHandler()
-{
-	switch (SerialInterpreter.MessageCommand)
-	{
-	case SerialInterpreterClass::eSerialCommands::nSetDate:
-	{
-		SetDateTime();
-		SerialInterpreter.ClearBuffer();
-		break;
-	}
-	case SerialInterpreterClass::eSerialCommands::nParseDate:
-	{
-		ParseDate();
-		SerialInterpreter.ClearBuffer();
-		break;
-	}
-	case SerialInterpreterClass::eSerialCommands::nPrint:
-	{
-		PrintTime();
-		SerialInterpreter.ClearBuffer();
-		break;
-	}
-	default:
-		break;
-	}
-}
-
 void SetDateTime()
 {
 	sprintf(lBuffer, "Setting.");
 	RTCTimer.SetTime(SerialInterpreter.GetParameter(0));
 	Serial.println(lBuffer);
+	PrintDateTime(RTCTimer.DateTime);
 }
 
 void ParseDate()
