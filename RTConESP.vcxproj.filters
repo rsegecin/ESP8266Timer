@@ -18,14 +18,17 @@
     <None Include="RTConESP.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Communs.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="RTCTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SerialInterpreter.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.ESP8266Timer.vsarduino.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleBinders.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

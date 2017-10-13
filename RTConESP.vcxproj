@@ -80,9 +80,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Communs.h" />
+    <ClInclude Include="SimpleBinders.h" />
     <ClInclude Include="RTCTimer.h" />
     <ClInclude Include="SerialInterpreter.h" />
+    <ClInclude Include="__vm\.ESP8266Timer.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RTCTimer.cpp" />

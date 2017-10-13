@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdint.h>
 #include <ctype.h>
-#include "Communs.h"
 
 struct sSerialCommand {
 	char * Name;
