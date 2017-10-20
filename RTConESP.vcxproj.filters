@@ -30,12 +30,18 @@
     <ClInclude Include="SimpleBinders.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="MD5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RTCTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SerialInterpreter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

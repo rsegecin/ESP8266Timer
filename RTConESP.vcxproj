@@ -80,12 +80,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MD5.h" />
     <ClInclude Include="SimpleBinders.h" />
     <ClInclude Include="RTCTimer.h" />
     <ClInclude Include="SerialInterpreter.h" />
     <ClInclude Include="__vm\.ESP8266Timer.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MD5.cpp" />
     <ClCompile Include="RTCTimer.cpp" />
     <ClCompile Include="SerialInterpreter.cpp" />
   </ItemGroup>
