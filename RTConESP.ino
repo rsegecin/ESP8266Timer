@@ -4,7 +4,7 @@
 
 char lBuffer[DEF_MSG_SIZE];
 
-#define NUMBER_OF_COMMANDS	4
+#define NUMBER_OF_COMMANDS	5
 sSerialCommand SerialCommands[NUMBER_OF_COMMANDS];
 SerialInterpreterClass SerialInterpreter(SerialCommands, NUMBER_OF_COMMANDS);
 
@@ -26,6 +26,9 @@ void setup()
 
 	SerialCommands[3].Name = "md5";
 	SerialCommands[3].ExecFunction = PrintMD5;
+
+	SerialCommands[4].Name = "ToHexString";
+	SerialCommands[4].ExecFunction = ToHexString;
 }
 
 void loop()
@@ -93,5 +96,14 @@ void PrintMD5() {
 	MD5.MakeHash(Hash, SerialInterpreter.GetParameter(0));
 
 	sprintf(lBuffer, "Hash of %s is %s", SerialInterpreter.GetParameter(0), Hash);
+	Serial.println(lBuffer);
+}
+
+void ToHexString() {
+	char hexStringBuffer[100];
+
+	MD5.ByteToHexString(hexStringBuffer, SerialInterpreter.GetParameter(0));
+
+	sprintf(lBuffer, "Hex String: %s", hexStringBuffer);
 	Serial.println(lBuffer);
 }

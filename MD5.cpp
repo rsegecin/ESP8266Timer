@@ -148,4 +148,11 @@ void MD5Class::MakeHash(char *hash, char *initial_msg)
 	byte_to_hex_string(hash, 33, hashInBytes);
 }
 
+void MD5Class::ByteToHexString(char * pBuffer, char * pInput)
+{
+	int length = (strlen(pInput) * 2) + 1;
+	memset(pBuffer, 0x00, length);
+	byte_to_hex_string(pBuffer, length, (unsigned char *) pInput);
+}
+
 MD5Class MD5;

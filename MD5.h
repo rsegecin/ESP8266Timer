@@ -43,7 +43,8 @@ private:
 	void md5(unsigned char *initial_msg, size_t initial_len, unsigned char *digest);
 
 public:
-	void MakeHash(char *hash, char *initial_msg);
+	void MakeHash(char * pBuffer, char *pInput);
+	void ByteToHexString(char * pBuffer, char *pInput);
 };
 
 extern MD5Class MD5;
