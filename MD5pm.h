@@ -1,14 +1,18 @@
-#ifndef _MD5_h
-#define _MD5_h
+#ifndef _MD5pm_h
+#define _MD5pm_h
 
-#include <pgmspace.h>
+#if defined(ESP8266)
+	#include <pgmspace.h>
+#else
+	#include <avr/pgmspace.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include "Utils.h"
 
 #define byte uint8_t
-
-const PROGMEM char HEX_VALUES[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 const PROGMEM unsigned long int MD5_K[64] = {
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
@@ -34,19 +38,17 @@ const PROGMEM byte MD5_R[64] = {
 	4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
 	6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21 };
 
-class MD5Class
+class MD5pmClass
 {
 private:
-	void byte_to_hex_string(char * hexStrParam, unsigned int hexStrLength, unsigned char * byteArrayParam);
 	void to_bytes(unsigned long int val, unsigned char *bytes);
 	unsigned long int to_int32(unsigned char *bytes);
-	void md5(unsigned char *initial_msg, size_t initial_len, unsigned char *digest);
 
 public:
+	void MakeMD5(unsigned char *pData, size_t pDataLength, unsigned char *pHashByteArray);
 	void MakeHash(char * pBuffer, char *pInput);
-	void ByteToHexString(char * pBuffer, char *pInput);
 };
 
-extern MD5Class MD5;
+extern MD5pmClass MD5pm;
 
 #endif

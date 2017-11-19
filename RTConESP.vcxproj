@@ -51,7 +51,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\..\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\libraries;$(ProjectDir)..\libraries;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\libb64;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\scopesdktwo;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\spiffs;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\umm_malloc;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\cores\esp8266\windowskits;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\variants\nodemcu;$(ProjectDir)..\ESP8266Timer;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\tools\sdk\include;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\tools\sdk\lwip\include;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include\c++\4.8.2;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include\c++\4.8.2\xtensa-lx106-elf;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\xtensa-lx106-elf\include;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\tools\xtensa-lx106-elf-gcc\1.20.0-26-gb404fb9-2\lib\gcc\xtensa-lx106-elf\4.8.2\include;$(ProjectDir)..\..\..\AppData\Local\arduino15\packages\esp8266\hardware\esp8266\2.3.0\tools\sdk\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.ESP8266Timer.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
-      <PreprocessorDefinitions>__ESP8266_ESp8266__;__ESP8266_ESP8266__;__ets__;ICACHE_FLASH;F_CPU=80000000L;LWIP_OPEN_SRC;ARDUINO=10803;ARDUINO_ESP8266_NODEMCU;ARDUINO_ARCH_ESP8266;ESP8266;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__ESP8266_ESp8266__;__ESP8266_ESP8266__;__ets__;ICACHE_FLASH;F_CPU=160000000L;LWIP_OPEN_SRC;ARDUINO=10803;ARDUINO_ESP8266_NODEMCU;ARDUINO_ARCH_ESP8266;ESP8266;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -80,16 +80,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MD5.h" />
+    <ClInclude Include="MD5pm.h" />
     <ClInclude Include="SimpleBinders.h" />
     <ClInclude Include="RTCTimer.h" />
     <ClInclude Include="SerialInterpreter.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="__vm\.ESP8266Timer.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MD5.cpp" />
+    <ClCompile Include="MD5pm.cpp" />
     <ClCompile Include="RTCTimer.cpp" />
     <ClCompile Include="SerialInterpreter.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>

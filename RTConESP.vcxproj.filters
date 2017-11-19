@@ -30,7 +30,10 @@
     <ClInclude Include="SimpleBinders.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="MD5.h">
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5pm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +44,10 @@
     <ClCompile Include="SerialInterpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MD5.cpp">
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5pm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

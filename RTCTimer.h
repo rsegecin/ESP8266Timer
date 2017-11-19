@@ -13,7 +13,11 @@ extern "C" {
 
 typedef uint32_t tTime;
 
-#define DEBUG_PIN 16
+#ifdef MHZ_160
+#define CYCLE_COUNT 80000
+#else
+#define CYCLE_COUNT 160000
+#endif
 
 #define BASE_YEAR				2000UL
 #define SECS_PER_MIN			60UL
@@ -45,10 +49,12 @@ public:
 
 	uint32_t Time;
 	sDateTime DateTime;
+	volatile uint32_t MiliSeconds;
 	void OnInterrupt();
 	void DelayMili(uint32_t pMili);
 	void DelayMili(uint32_t pMili, bool &pFlag);
 	void DelayMili(uint32_t pMili, void(*doWhile)(void));
+	bool DelayMili(uint32_t pMili, bool(*doWhile)(void));
 	void DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void));
 	void SetTime(tTime pTime); // Time in seconds since January 1st YEAR_BASE
 	void SetTime(char pTimeString[]);
@@ -56,11 +62,8 @@ public:
 	tTime MakeTime(sDateTime &t);
 	void BreakTime(tTime &timeInput, sDateTime &tm);
 
-
 private:
 	os_timer_t myTimer;
-	bool tmpTest;
-	volatile uint32_t miliSeconds;
 	volatile uint32_t miliToSec;
 	volatile uint32_t tmpTicks;
 };

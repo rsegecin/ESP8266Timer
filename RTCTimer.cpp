@@ -2,31 +2,18 @@
 
 RTCTimerClass::RTCTimerClass()
 {
-	pinMode(DEBUG_PIN, OUTPUT);
-
-	bind_member<RTCTimerClass, &RTCTimerClass::OnInterrupt, 0> tCallBack(this);
+	bind_member<RTCTimerClass, &RTCTimerClass::OnInterrupt> tCallBack(this);
 	timer0_isr_init();
 	timer0_attachInterrupt(tCallBack);
-	timer0_write(ESP.getCycleCount() + 160000); // 80000 for 80Mhz
+	timer0_write(ESP.getCycleCount() + CYCLE_COUNT);
 }
 
 void RTCTimerClass::OnInterrupt()
 {
-	timer0_write(ESP.getCycleCount() + 80000); // 80000 and 160000 for 80Mhz
-
-	if (tmpTest)
-	{
-		tmpTest = false;
-	}
-	else
-	{
-		tmpTest = true;
-	}
-
-	digitalWrite(DEBUG_PIN, tmpTest);
+	timer0_write(ESP.getCycleCount() + CYCLE_COUNT);
 
 	miliToSec++;
-	miliSeconds++;
+	MiliSeconds++;
 
 	if (miliToSec >= 1000)
 	{
@@ -37,33 +24,46 @@ void RTCTimerClass::OnInterrupt()
 
 void RTCTimerClass::DelayMili(uint32_t pMili)
 {
-	tmpTicks = miliSeconds + pMili;
+	tmpTicks = MiliSeconds + pMili;
 
-	while (miliSeconds <= tmpTicks) { yield(); }
+	while (MiliSeconds <= tmpTicks) { yield(); }
 }
 
 void RTCTimerClass::DelayMili(uint32_t pMili, bool &pFlag)
 {
-	tmpTicks = miliSeconds + pMili;
+	tmpTicks = MiliSeconds + pMili;
 
-	while ((!pFlag) && (miliSeconds <= tmpTicks)) { yield(); }
+	while ((!pFlag) && (MiliSeconds <= tmpTicks)) { yield(); }
 }
 
 void RTCTimerClass::DelayMili(uint32_t pMili, void(*doWhile)(void))
 {
-	tmpTicks = miliSeconds + pMili;
+	tmpTicks = MiliSeconds + pMili;
 
-	while (miliSeconds <= tmpTicks)
+	while (MiliSeconds <= tmpTicks)
 	{
 		doWhile();
 	}
 }
 
+bool RTCTimerClass::DelayMili(uint32_t pMili, bool(*doWhile)(void))
+{
+	tmpTicks = MiliSeconds + pMili;
+
+	while (MiliSeconds <= tmpTicks)
+	{
+		if (doWhile())
+			return true;
+	}
+
+	return false;
+}
+
 void RTCTimerClass::DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void))
 {
-	tmpTicks = miliSeconds + pMili;
+	tmpTicks = MiliSeconds + pMili;
 
-	while ((!pFlag) && (miliSeconds <= tmpTicks))
+	while ((!pFlag) && (MiliSeconds <= tmpTicks))
 	{
 		doWhile();
 	}
@@ -83,24 +83,21 @@ void RTCTimerClass::SetTime(char pTimeString[])
 void RTCTimerClass::ParseTime(sDateTime &pDateTime, char pTimeString[])
 {
 	char aux[5];
-	String strDateTime(pTimeString);
 
-	int iT = strDateTime.indexOf('T');
-	int iZ = strDateTime.indexOf('Z');
-
-	if ((iT == 10) && ((iZ == 19) || (iZ == 23)))
+	if ((pTimeString[10] == 'T') && ((pTimeString[19] == 'Z') || (pTimeString[23] == 'Z')))
 	{
-		strDateTime.substring(0, 4).toCharArray(aux, 5);
+		memcpy(aux, pTimeString, 4);
 		pDateTime.Year = atoi(aux);
-		strDateTime.substring(5, 7).toCharArray(aux, 3);
+		memset(aux, 0x00, 5);
+		memcpy(aux, &pTimeString[5], 2);
 		pDateTime.Month = atoi(aux);
-		strDateTime.substring(8, 10).toCharArray(aux, 3);
+		memcpy(aux, &pTimeString[8], 2);
 		pDateTime.DayOfMonth = atoi(aux);
-		strDateTime.substring(11, 13).toCharArray(aux, 3);
+		memcpy(aux, &pTimeString[11], 2);
 		pDateTime.Hours = atoi(aux);
-		strDateTime.substring(14, 16).toCharArray(aux, 3);
+		memcpy(aux, &pTimeString[14], 2);
 		pDateTime.Minutes = atoi(aux);
-		strDateTime.substring(17, 19).toCharArray(aux, 3);
+		memcpy(aux, &pTimeString[17], 2);
 		pDateTime.Seconds = atoi(aux);
 	}
 }

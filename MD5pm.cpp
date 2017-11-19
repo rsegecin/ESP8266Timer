@@ -1,21 +1,8 @@
-﻿#include "MD5.h"
+﻿#include "MD5pm.h"
 
 #define LEFTROTATE(x, c) (((x) << (c)) | ((x) >> (32 - (c))))
 
-void MD5Class::byte_to_hex_string(char * hexStrParam, unsigned int hexStrLength, unsigned char * byteArrayParam)
-{
-	unsigned char num;
-
-	for (int i = 0, u = 0; i < (hexStrLength - 1) / 2; i++, u++)
-	{
-		num = byteArrayParam[i] >> 4;
-		hexStrParam[u] = (char)pgm_read_byte(HEX_VALUES + num);
-		num = byteArrayParam[i] & 0xf;
-		hexStrParam[++u] = (char)pgm_read_byte(HEX_VALUES + num);
-	}
-}
-
-void MD5Class::to_bytes(unsigned long int val, unsigned char *bytes)
+void MD5pmClass::to_bytes(unsigned long int val, unsigned char *bytes)
 {
 	bytes[0] = (unsigned char)val;
 	bytes[1] = (unsigned char)(val >> 8);
@@ -23,12 +10,12 @@ void MD5Class::to_bytes(unsigned long int val, unsigned char *bytes)
 	bytes[3] = (unsigned char)(val >> 24);
 }
 
-unsigned long int MD5Class::to_int32(unsigned char *bytes)
+unsigned long int MD5pmClass::to_int32(unsigned char *bytes)
 {
 	return (unsigned long int) bytes[0] | ((unsigned long int) bytes[1] << 8) | ((unsigned long int) bytes[2] << 16) | ((unsigned long int) bytes[3] << 24);
 }
 
-void MD5Class::md5(unsigned char *initial_msg, size_t initial_len, unsigned char *digest)
+void MD5pmClass::MakeMD5(unsigned char *initial_msg, size_t initial_len, unsigned char *digest)
 {
 	// These vars will contain the hash
 	unsigned long int h0, h1, h2, h3;
@@ -137,22 +124,15 @@ void MD5Class::md5(unsigned char *initial_msg, size_t initial_len, unsigned char
 }
 
 /// hash must have at least size of 33
-void MD5Class::MakeHash(char *hash, char *initial_msg)
+void MD5pmClass::MakeHash(char *hash, char *pData)
 {
 	unsigned char hashInBytes[16];
 
-	md5((unsigned char *)initial_msg, strlen((char *)initial_msg), hashInBytes);
+	MakeMD5((unsigned char *)pData, strlen((char *)pData), hashInBytes);
 
 	memset(hash, 0x00, 33);
 
-	byte_to_hex_string(hash, 33, hashInBytes);
+	Utils.ByteToHexString(hash, hashInBytes, 16);
 }
 
-void MD5Class::ByteToHexString(char * pBuffer, char * pInput)
-{
-	int length = (strlen(pInput) * 2) + 1;
-	memset(pBuffer, 0x00, length);
-	byte_to_hex_string(pBuffer, length, (unsigned char *) pInput);
-}
-
-MD5Class MD5;
+MD5pmClass MD5pm;

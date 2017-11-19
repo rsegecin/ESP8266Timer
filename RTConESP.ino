@@ -1,8 +1,11 @@
+#define MHZ_160
+
 #include "SerialInterpreter.h"
 #include "RTCTimer.h"
-#include "MD5.h"
+#include "MD5pm.h"
+#include "Utils.h"
 
-char lBuffer[DEF_MSG_SIZE];
+char serialBuffer[DEF_MSG_SIZE];
 
 #define NUMBER_OF_COMMANDS	5
 sSerialCommand SerialCommands[NUMBER_OF_COMMANDS];
@@ -27,8 +30,8 @@ void setup()
 	SerialCommands[3].Name = "md5";
 	SerialCommands[3].ExecFunction = PrintMD5;
 
-	SerialCommands[4].Name = "ToHexString";
-	SerialCommands[4].ExecFunction = ToHexString;
+	SerialCommands[4].Name = "hex2byte";
+	SerialCommands[4].ExecFunction = HexToByte;
 }
 
 void loop()
@@ -57,9 +60,9 @@ void CheckingSerial()
 
 void SetDateTime()
 {
-	sprintf(lBuffer, "Setting.");
+	sprintf(serialBuffer, "Setting.");
 	RTCTimer.SetTime(SerialInterpreter.GetParameter(0));
-	Serial.println(lBuffer);
+	Serial.println(serialBuffer);
 	PrintDateTime(RTCTimer.DateTime);
 }
 
@@ -67,17 +70,17 @@ void ParseDate()
 {
 	static sDateTime datetime;
 	RTCTimer.ParseTime(datetime, SerialInterpreter.GetParameter(0));
-	sprintf(lBuffer, "Parsing.");
-	Serial.println(lBuffer);
+	sprintf(serialBuffer, "Parsing.");
+	Serial.println(serialBuffer);
 	PrintDateTime(datetime);
 }
 
 void PrintDateTime(sDateTime datetime)
 {
-	sprintf(lBuffer, "printing: %i/%i/%i %i:%i:%i",
+	sprintf(serialBuffer, "printing: %i/%i/%i %i:%i:%i",
 		datetime.DayOfMonth, datetime.Month, datetime.Year,
 		datetime.Hours, datetime.Minutes, datetime.Seconds);
-	Serial.println(lBuffer);
+	Serial.println(serialBuffer);
 }
 
 void PrintTime()
@@ -85,25 +88,29 @@ void PrintTime()
 	sDateTime conv;
 	RTCTimer.BreakTime(RTCTimer.Time, conv);
 
-	sprintf(lBuffer, "now: %i/%i/%i %i:%i:%i",
+	sprintf(serialBuffer, "now: %i/%i/%i %i:%i:%i",
 		conv.DayOfMonth, conv.Month, conv.Year, conv.Hours, conv.Minutes, conv.Seconds);
-	Serial.println(lBuffer);
+	Serial.println(serialBuffer);
 }
 
 void PrintMD5() {
 	char Hash[33];
 
-	MD5.MakeHash(Hash, SerialInterpreter.GetParameter(0));
+	MD5pm.MakeHash(Hash, SerialInterpreter.GetParameter(0));
 
-	sprintf(lBuffer, "Hash of %s is %s", SerialInterpreter.GetParameter(0), Hash);
-	Serial.println(lBuffer);
+	sprintf(serialBuffer, "Hash of %s is %s", SerialInterpreter.GetParameter(0), Hash);
+	Serial.println(serialBuffer);
 }
 
-void ToHexString() {
-	char hexStringBuffer[100];
+void HexToByte() {
+	byte buffer[DEF_MSG_SIZE / 2];
+	char aux[DEF_MSG_SIZE];
 
-	MD5.ByteToHexString(hexStringBuffer, SerialInterpreter.GetParameter(0));
+	uint8_t length = strlen(SerialInterpreter.GetParameter(0));
+	
+	Utils.HexToByteArray(buffer, SerialInterpreter.GetParameter(0), length);
+	Utils.ByteToHexString(aux, buffer, length / 2);
 
-	sprintf(lBuffer, "Hex String: %s", hexStringBuffer);
-	Serial.println(lBuffer);
+	sprintf(serialBuffer, "Byte array is %s", aux);
+	Serial.println(serialBuffer);
 }
