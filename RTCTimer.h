@@ -50,7 +50,6 @@ public:
 	uint32_t Time;
 	sDateTime DateTime;
 	volatile uint32_t MiliSeconds;
-	void OnInterrupt();
 	void DelayMili(uint32_t pMili);
 	void DelayMili(uint32_t pMili, bool &pFlag);
 	void DelayMili(uint32_t pMili, void(*doWhile)(void));
@@ -63,7 +62,7 @@ public:
 	void BreakTime(tTime &timeInput, sDateTime &tm);
 
 private:
-	os_timer_t myTimer;
+	void OnInterrupt();
 	volatile uint32_t miliToSec;
 	volatile uint32_t tmpTicks;
 };
