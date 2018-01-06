@@ -1,5 +1,6 @@
 #define MHZ_160
 
+#include "CalendarHelper.h"
 #include "SerialInterpreter.h"
 #include "RTCTimer.h"
 #include "MD5pm.h"
@@ -60,8 +61,12 @@ void CheckingSerial()
 
 void SetDateTime()
 {
+    sDateTime d;
+    uint32_t t;
+    CalendarHelperClass::ParseStrDateTime(d, SerialInterpreter.GetParameter(0));
+    CalendarHelperClass::ConvertToSeconds(t, d);
 	sprintf(serialBuffer, "Setting.");
-	RTCTimer.SetTime(SerialInterpreter.GetParameter(0));
+	RTCTimer.SetTime(t);
 	Serial.println(serialBuffer);
 	PrintDateTime(RTCTimer.DateTime);
 }
@@ -69,7 +74,7 @@ void SetDateTime()
 void ParseDate()
 {
 	static sDateTime datetime;
-	RTCTimer.ParseTime(datetime, SerialInterpreter.GetParameter(0));
+	CalendarHelperClass::ParseStrDateTime(datetime, SerialInterpreter.GetParameter(0));
 	sprintf(serialBuffer, "Parsing.");
 	Serial.println(serialBuffer);
 	PrintDateTime(datetime);
@@ -78,18 +83,18 @@ void ParseDate()
 void PrintDateTime(sDateTime datetime)
 {
 	sprintf(serialBuffer, "printing: %i/%i/%i %i:%i:%i",
-		datetime.DayOfMonth, datetime.Month, datetime.Year,
-		datetime.Hours, datetime.Minutes, datetime.Seconds);
+		datetime.Day, datetime.Month, datetime.Year,
+		datetime.Hour, datetime.Minute, datetime.Second);
 	Serial.println(serialBuffer);
 }
 
 void PrintTime()
 {
 	sDateTime conv;
-	RTCTimer.BreakTime(RTCTimer.Time, conv);
+	CalendarHelperClass::ConvertToDateTime(conv, RTCTimer.Time);
 
 	sprintf(serialBuffer, "now: %i/%i/%i %i:%i:%i",
-		conv.DayOfMonth, conv.Month, conv.Year, conv.Hours, conv.Minutes, conv.Seconds);
+		conv.Day, conv.Month, conv.Year, conv.Hour, conv.Minute, conv.Second);
 	Serial.println(serialBuffer);
 }
 
