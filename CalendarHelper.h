@@ -38,12 +38,15 @@ private:
 
 public:
     static void ParseStrDateTime(sDateTime & pDateTime, char pStrDateTime[]); // Parse from ISO 8601 string format to sDateTime
+    static void ParseStrDateTime(uint32_t & pTime, char pStrDateTime[]); // Parse from ISO 8601 string format to sDateTime
     static void ConvertToSeconds(uint32_t & pSeconds, sDateTime & pDateTime); // Convert from sDateTime to number of seconds since Jan 1st of 2000
     static void ConvertToDateTime(sDateTime & pDateTime, uint32_t pSeconds); // Convert from number of seconds since beginning of 2000 to sDateTime
     static uint8_t GetDayOfWeek(uint16_t pYear, uint8_t pMonth, uint8_t pDay); // Calculate day of week in proleptic Gregorian calendar. Sunday == 0
 
     static void BeginningOfSummerTime(sDateTime & pDateTime, uint16_t pYear); // Return the date when the summer time starts in Brazil
     static void EndingOfSummerTime(sDateTime & pDateTime, uint16_t pYear);
+    static uint32_t Difference(sDateTime & pDateTimeOne, sDateTime & pDateTimeTwo);
+    static void SPrintTime(char * pBuffer, sDateTime & pDateTime);
 };
 
 #endif

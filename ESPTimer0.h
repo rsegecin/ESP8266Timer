@@ -20,10 +20,10 @@ typedef uint32_t tTime;
 #define CYCLE_COUNT 160000
 #endif
 
-class RTCTimerClass
+class ESPTimer0Class
 {
 public:
-	RTCTimerClass();
+	ESPTimer0Class();
 
 	uint32_t Time;
 	sDateTime DateTime;
@@ -41,6 +41,6 @@ private:
 	volatile uint32_t tmpTicks;
 };
 
-extern RTCTimerClass RTCTimer;
+extern ESPTimer0Class ESPTimer0;
 
 #endif

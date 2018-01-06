@@ -569,5 +569,3 @@ uint8_t DS3231Class::readRegister8(uint8_t reg)
 
     return value;
 }
-
-DS3231Class DS3231;

@@ -41,11 +41,11 @@ const PROGMEM byte MD5_R[64] = {
 class MD5pmClass
 {
 private:
-    void to_bytes(unsigned long int val, byte *bytes);
-    unsigned long int to_int32(byte *bytes);
+    static void to_bytes(unsigned long int val, byte *bytes);
+    static unsigned long int to_int32(byte *bytes);
 
 public:
-    void MakeMD5(byte *pData, size_t pDataLength, byte * pBuffer);
+    static void MakeMD5(byte *pData, size_t pDataLength, byte * pBuffer);
 };
 
 extern MD5pmClass MD5pm;

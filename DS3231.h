@@ -51,27 +51,27 @@ struct sAlarmTime
 
 typedef enum
 {
-    DS3231_1HZ = 0x00,
-    DS3231_4096HZ = 0x01,
-    DS3231_8192HZ = 0x02,
-    DS3231_32768HZ = 0x03
+    DS3231_1HZ      = 0x00,
+    DS3231_4096HZ   = 0x01,
+    DS3231_8192HZ   = 0x02,
+    DS3231_32768HZ  = 0x03
 } eDS3231_sqw_t;
 
 typedef enum
 {
-    DS3231_EVERY_SECOND = 0b00001111,
-    DS3231_MATCH_S = 0b00001110,
-    DS3231_MATCH_M_S = 0b00001100,
-    DS3231_MATCH_H_M_S = 0b00001000,
-    DS3231_MATCH_DT_H_M_S = 0b00000000,
-    DS3231_MATCH_DY_H_M_S = 0b00010000
+    DS3231_EVERY_SECOND     = 0b00001111,
+    DS3231_MATCH_S          = 0b00001110,
+    DS3231_MATCH_M_S        = 0b00001100,
+    DS3231_MATCH_H_M_S      = 0b00001000,
+    DS3231_MATCH_DT_H_M_S   = 0b00000000,
+    DS3231_MATCH_DY_H_M_S   = 0b00010000
 } eDS3231_alarm1_t;
 
 typedef enum
 {
     DS3231_EVERY_MINUTE = 0b00001110,
-    DS3231_MATCH_M = 0b00001100,
-    DS3231_MATCH_H_M = 0b00001000,
+    DS3231_MATCH_M      = 0b00001100,
+    DS3231_MATCH_H_M    = 0b00001000,
     DS3231_MATCH_DT_H_M = 0b00000000,
     DS3231_MATCH_DY_H_M = 0b00010000
 } eDS3231_alarm2_t;
@@ -135,7 +135,5 @@ private:
     void writeRegister8(uint8_t reg, uint8_t value);
     uint8_t readRegister8(uint8_t reg);
 };
-
-extern DS3231Class DS3231;
 
 #endif

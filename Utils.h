@@ -20,8 +20,8 @@ const PROGMEM char HEX_VALUES[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8',
 class UtilsClass
 {
 public:
-	void HexToByteArray(byte * pBuffer, char * pString, uint16_t pStrLength);
-	void ByteToHexString(char * pBuffer, byte * pByteArray, uint16_t pByteArrayLength);
+	static void HexToByteArray(byte * pBuffer, char * pString, uint16_t pStrLength);
+    static void ByteToHexString(char * pBuffer, byte * pByteArray, uint16_t pByteArrayLength);
 };
 
 extern UtilsClass Utils;

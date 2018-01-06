@@ -23,6 +23,13 @@ void CalendarHelperClass::ParseStrDateTime(sDateTime & pDateTime, char pStrDateT
     }
 }
 
+void CalendarHelperClass::ParseStrDateTime(uint32_t & pTime, char pStrDateTime[])
+{
+    sDateTime datetime;
+    CalendarHelperClass::ParseStrDateTime(datetime, pStrDateTime);
+    CalendarHelperClass::ConvertToSeconds(pTime, datetime);
+}
+
 void CalendarHelperClass::ConvertToSeconds(uint32_t & pSeconds, sDateTime & pDateTime)
 {
     int i;
@@ -188,3 +195,25 @@ void CalendarHelperClass::EndingOfSummerTime(sDateTime & pDateTime, uint16_t pYe
     if (carnavalSunday.Day == pDateTime.Day)
         pDateTime.Day += 7;
 }
+
+uint32_t CalendarHelperClass::Difference(sDateTime & pDateTimeOne, sDateTime & pDateTimeTwo)
+{
+    uint32_t one;
+    uint32_t two;
+
+    CalendarHelperClass::ConvertToSeconds(one, pDateTimeOne);
+    CalendarHelperClass::ConvertToSeconds(two, pDateTimeTwo);
+
+    if (one > two)
+        return one - two;
+    else
+        return two - one;
+}
+
+void CalendarHelperClass::SPrintTime(char * pBuffer, sDateTime & pDateTime)
+{
+    sprintf(pBuffer, "%i-%i-%i %i:%i:%i",
+        pDateTime.Year, pDateTime.Month, pDateTime.Day, 
+        pDateTime.Hour, pDateTime.Minute, pDateTime.Second);
+}
+

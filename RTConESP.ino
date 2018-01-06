@@ -1,21 +1,26 @@
 #define MHZ_160
 
+#include "DS3231.h"
 #include "CalendarHelper.h"
 #include "SerialInterpreter.h"
-#include "RTCTimer.h"
+#include "ESPTimer0.h"
 #include "MD5pm.h"
 #include "Utils.h"
 
 char serialBuffer[DEF_MSG_SIZE];
 
-#define NUMBER_OF_COMMANDS	5
+#define NUMBER_OF_COMMANDS	6
 sSerialCommand SerialCommands[NUMBER_OF_COMMANDS];
 SerialInterpreterClass SerialInterpreter(SerialCommands, NUMBER_OF_COMMANDS);
+
+DS3231Class DS3231;
 
 void setup()
 {
 	sei();
 	Serial.begin(115200);
+
+    DS3231.Begin();
 
 	Serial.println("Welcome");
 
@@ -31,13 +36,16 @@ void setup()
 	SerialCommands[3].Name = "md5";
 	SerialCommands[3].ExecFunction = PrintMD5;
 
-	SerialCommands[4].Name = "hex2byte";
-	SerialCommands[4].ExecFunction = HexToByte;
+    SerialCommands[4].Name = "hex2byte";
+    SerialCommands[4].ExecFunction = HexToByte;
+
+    SerialCommands[5].Name = "setRTC";
+    SerialCommands[5].ExecFunction = SetRTC;
 }
 
 void loop()
 {
-	RTCTimer.DelayMili(1000, (bool &)SerialInterpreter.MessageReady, CheckingSerial);
+	ESPTimer0.DelayMili(1000, (bool &)SerialInterpreter.MessageReady, CheckingSerial);
 
 	PrintTime();
 
@@ -66,9 +74,9 @@ void SetDateTime()
     CalendarHelperClass::ParseStrDateTime(d, SerialInterpreter.GetParameter(0));
     CalendarHelperClass::ConvertToSeconds(t, d);
 	sprintf(serialBuffer, "Setting.");
-	RTCTimer.SetTime(t);
+	ESPTimer0.SetTime(t);
 	Serial.println(serialBuffer);
-	PrintDateTime(RTCTimer.DateTime);
+	PrintDateTime(ESPTimer0.DateTime);
 }
 
 void ParseDate()
@@ -91,7 +99,7 @@ void PrintDateTime(sDateTime datetime)
 void PrintTime()
 {
 	sDateTime conv;
-	CalendarHelperClass::ConvertToDateTime(conv, RTCTimer.Time);
+	CalendarHelperClass::ConvertToDateTime(conv, ESPTimer0.Time);
 
 	sprintf(serialBuffer, "now: %i/%i/%i %i:%i:%i",
 		conv.Day, conv.Month, conv.Year, conv.Hour, conv.Minute, conv.Second);
@@ -99,11 +107,13 @@ void PrintTime()
 }
 
 void PrintMD5() {
-	char Hash[33];
+    byte Hash[16];
+    char strHash[33];
 
-	MD5pm.MakeHash(Hash, SerialInterpreter.GetParameter(0));
+	MD5pm.MakeMD5((uint8_t *) SerialInterpreter.GetParameter(0), strlen(SerialInterpreter.GetParameter(0)), Hash);
+    UtilsClass::ByteToHexString(strHash, Hash, sizeof(Hash));
 
-	sprintf(serialBuffer, "Hash of %s is %s", SerialInterpreter.GetParameter(0), Hash);
+	sprintf(serialBuffer, "Hash of %s is %s", SerialInterpreter.GetParameter(0), strHash);
 	Serial.println(serialBuffer);
 }
 
@@ -118,4 +128,17 @@ void HexToByte() {
 
 	sprintf(serialBuffer, "Byte array is %s", aux);
 	Serial.println(serialBuffer);
+}
+
+void SetRTC()
+{
+    char auxBuffer[20];
+    sDateTime datetime;
+    CalendarHelperClass::ParseStrDateTime(datetime, SerialInterpreter.GetParameter(0));
+    DS3231.SetDateTime(datetime);
+    ESPTimer0.DelayMili(10);
+    DS3231.GetDateTime(datetime);
+    CalendarHelperClass::SPrintTime(auxBuffer, datetime);
+    sprintf(serialBuffer, "Now the RTC date time is %s", auxBuffer);
+    Serial.println(serialBuffer);
 }

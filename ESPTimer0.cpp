@@ -1,14 +1,14 @@
-#include "RTCTimer.h"
+#include "ESPTimer0.h"
 
-RTCTimerClass::RTCTimerClass()
+ESPTimer0Class::ESPTimer0Class()
 {
-	bind_member<RTCTimerClass, &RTCTimerClass::OnInterrupt> tCallBack(this);
+	bind_member<ESPTimer0Class, &ESPTimer0Class::OnInterrupt> tCallBack(this);
 	timer0_isr_init();
 	timer0_attachInterrupt(tCallBack);
 	timer0_write(ESP.getCycleCount() + CYCLE_COUNT);
 }
 
-void RTCTimerClass::OnInterrupt()
+void ESPTimer0Class::OnInterrupt()
 {
 	timer0_write(ESP.getCycleCount() + CYCLE_COUNT);
 
@@ -22,21 +22,21 @@ void RTCTimerClass::OnInterrupt()
 	}
 }
 
-void RTCTimerClass::DelayMili(uint32_t pMili)
+void ESPTimer0Class::DelayMili(uint32_t pMili)
 {
 	tmpTicks = MiliSeconds + pMili;
 
 	while (MiliSeconds <= tmpTicks) { yield(); }
 }
 
-void RTCTimerClass::DelayMili(uint32_t pMili, bool &pFlag)
+void ESPTimer0Class::DelayMili(uint32_t pMili, bool &pFlag)
 {
 	tmpTicks = MiliSeconds + pMili;
 
 	while ((!pFlag) && (MiliSeconds <= tmpTicks)) { yield(); }
 }
 
-void RTCTimerClass::DelayMili(uint32_t pMili, void(*doWhile)(void))
+void ESPTimer0Class::DelayMili(uint32_t pMili, void(*doWhile)(void))
 {
 	tmpTicks = MiliSeconds + pMili;
 
@@ -46,7 +46,7 @@ void RTCTimerClass::DelayMili(uint32_t pMili, void(*doWhile)(void))
 	}
 }
 
-bool RTCTimerClass::DelayMili(uint32_t pMili, bool(*doWhile)(void))
+bool ESPTimer0Class::DelayMili(uint32_t pMili, bool(*doWhile)(void))
 {
 	tmpTicks = MiliSeconds + pMili;
 
@@ -59,7 +59,7 @@ bool RTCTimerClass::DelayMili(uint32_t pMili, bool(*doWhile)(void))
 	return false;
 }
 
-void RTCTimerClass::DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void))
+void ESPTimer0Class::DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void))
 {
 	tmpTicks = MiliSeconds + pMili;
 
@@ -69,9 +69,9 @@ void RTCTimerClass::DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void))
 	}
 }
 
-void RTCTimerClass::SetTime(tTime pTime)
+void ESPTimer0Class::SetTime(tTime pTime)
 {
 	Time = pTime;
 }
 
-RTCTimerClass RTCTimer;
+ESPTimer0Class ESPTimer0;
