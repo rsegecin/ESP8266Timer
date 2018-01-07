@@ -41,6 +41,4 @@ private:
 	volatile uint32_t tmpTicks;
 };
 
-extern ESPTimer0Class ESPTimer0;
-
 #endif

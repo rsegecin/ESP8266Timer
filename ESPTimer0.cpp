@@ -73,5 +73,3 @@ void ESPTimer0Class::SetTime(tTime pTime)
 {
 	Time = pTime;
 }
-
-ESPTimer0Class ESPTimer0;

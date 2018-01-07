@@ -14,6 +14,7 @@ sSerialCommand SerialCommands[NUMBER_OF_COMMANDS];
 SerialInterpreterClass SerialInterpreter(SerialCommands, NUMBER_OF_COMMANDS);
 
 DS3231Class DS3231;
+ESPTimer0Class ESPTimer0;
 
 void setup()
 {
