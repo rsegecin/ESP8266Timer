@@ -38,7 +38,6 @@ public:
 private:
 	void OnInterrupt();
 	volatile uint32_t miliToSec;
-	volatile uint32_t tmpTicks;
 };
 
 #endif

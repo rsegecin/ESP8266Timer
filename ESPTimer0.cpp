@@ -24,21 +24,21 @@ void ESPTimer0Class::OnInterrupt()
 
 void ESPTimer0Class::DelayMili(uint32_t pMili)
 {
-	tmpTicks = MiliSeconds + pMili;
+    uint32_t tmpTicks = MiliSeconds + pMili;
 
 	while (MiliSeconds <= tmpTicks) { yield(); }
 }
 
 void ESPTimer0Class::DelayMili(uint32_t pMili, bool &pFlag)
 {
-	tmpTicks = MiliSeconds + pMili;
+    uint32_t tmpTicks = MiliSeconds + pMili;
 
 	while ((!pFlag) && (MiliSeconds <= tmpTicks)) { yield(); }
 }
 
 void ESPTimer0Class::DelayMili(uint32_t pMili, void(*doWhile)(void))
 {
-	tmpTicks = MiliSeconds + pMili;
+    uint32_t tmpTicks = MiliSeconds + pMili;
 
 	while (MiliSeconds <= tmpTicks)
 	{
@@ -48,7 +48,7 @@ void ESPTimer0Class::DelayMili(uint32_t pMili, void(*doWhile)(void))
 
 bool ESPTimer0Class::DelayMili(uint32_t pMili, bool(*doWhile)(void))
 {
-	tmpTicks = MiliSeconds + pMili;
+    uint32_t tmpTicks = MiliSeconds + pMili;
 
 	while (MiliSeconds <= tmpTicks)
 	{
@@ -61,7 +61,7 @@ bool ESPTimer0Class::DelayMili(uint32_t pMili, bool(*doWhile)(void))
 
 void ESPTimer0Class::DelayMili(uint32_t pMili, bool &pFlag, void(*doWhile)(void))
 {
-	tmpTicks = MiliSeconds + pMili;
+    uint32_t tmpTicks = MiliSeconds + pMili;
 
 	while ((!pFlag) && (MiliSeconds <= tmpTicks))
 	{
